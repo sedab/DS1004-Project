@@ -1,35 +1,36 @@
+"""
+ONLY APPLIES TO GREEN CAB DATA
+"""
+
 import sys
-import check_yellow_data as yd
 import check_green_data as gd
 from pyspark import SparkContext
+from datetime import datetime as dt
 
-
-def check_mta_tax(input_datapoint):
+def check_lpep_pickup_datetime(input_datapoint):
+    # sample valid datapoint:  '2015-07-01 00:01:10'
     try:
-        flip = float(input_datapoint)        
-        if flip in [0.5, 1]:
-            base_type="Float"
-            semantic_type="MTA Tax Cost"
+        dto = dt.strptime(input_datapoint, '%Y-%m-%d %H:%M:%S')
+        #dto.year, dto.month, dto.day, dto.minute, dto.second, dto.hour        
+        if dto.year in [2013, 2014,2015,2016]:
+            base_type="TIMESTAMP"
+            semantic_type="Timestamp"
             qual_type="Valid"
-        elif flip < 0:
-            base_type="Float"
-            semantic_type="Negative MTA Tax Cost"
-            qual_type="Invalid"
         else:
-            base_type="Float"
-            semantic_type="Incorrect MTA Tax Cost"
-            qual_type="Invalid/Outlier" 
+            base_type="timestamp"
+            semantic_type="Timestamp"
+            qual_type="Invalid/Outlier"
     except:
-        if input_datapoint=="":
+        if input_datapoint=='':
             base_type="TEXT"
-            semantic_type="No Entry"
+            semantic_type="Empty Value"
             qual_type="Null"
         else:
             base_type=type(input_datapoint)
-            semantic_type="Invalid Tax Entry"
+            semantic_type="Unknown"
             qual_type="Invalid"
+    
     return [input_datapoint, base_type, semantic_type, qual_type]
-
 
 
 def main():
@@ -39,14 +40,9 @@ def main():
     try:
         green_data_path = sys.argv[2]
         sc = SparkContext()
-
-        y_data = yd.yc_processing(sc, sys.argv[1])
-        mapped_y_data = y_data.map(lambda x: check_mta_tax(x[14]))
-        print("SAMPLE YELLOW CAB DATA OUTPUT: \n")
-        print(mapped_y_data.take(20))
         
         g_data = gd.gd_processing(sc, green_data_path)
-        mapped_g_data = g_data.map(lambda x: check_mta_tax(x[13]))
+        mapped_g_data = g_data.map(lambda x: check_lpep_pickup_datetime(x[1]))
         print("SAMPLE GREEN CAB DATA OUTPUT: \n")
         print(mapped_g_data.take(20))
         #if filename:
@@ -57,9 +53,10 @@ def main():
     except:
         words = str(sys.argv[1]).split("|")
         for word in words:
-            print(check_mta_tax(word))
+            print(check_lpep_pickup_datetime(word))
     return
 
 
 if __name__ == '__main__':
     main()
+

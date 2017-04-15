@@ -5,19 +5,25 @@ from pyspark import SparkContext
 
 
 def check_RateCodeID(input_datapoint):
-    if int(input_datapoint) in [1,2,3,4,5,6]:
-        base_type="Integer"
-        semantic_type="Type of Rate: "
-        qual_type="Valid"
-    elif int(input_datapoint)==99:
-        base_type="Integer"
-        semantic_type="Ratecode not input"
-        qual_type="Null"
-    elif int(input_datapoint)==0:
-        base_type="Integer"
-        semantic_type="Ratecode not input- prior to 2015"
-        qual_type="Null"
-    else:
+    try:
+        intinp = int(input_datapoint)
+        if intinp in [1,2,3,4,5,6]:
+            base_type="INTEGER"
+            semantic_type="Rate code"
+            qual_type="VALID"
+        elif intinp==99:
+            base_type="INTEGER"
+            semantic_type="Integer"
+            qual_type="NULL"
+        elif intinp==0:
+            base_type="INTEGER"
+            semantic_type="Integer"
+            qual_type="NULL"
+        else:
+            base_type="INTEGER"
+            semantic_type="Integer"
+            qual_type="INVALID"      
+    except:
         base_type=type(input_datapoint)
         semantic_type="Invalid Ratecode ID"
         qual_type="Invalid"
@@ -33,12 +39,12 @@ def main():
         sc = SparkContext()
 
         y_data = yd.yc_processing(sc, sys.argv[1])
-        mapped_y_data = y_data.map(lambda x: check_RateCodeID(x[0]))
+        mapped_y_data = y_data.map(lambda x: check_RateCodeID(x[7]))
         print("SAMPLE YELLOW CAB DATA OUTPUT: \n")
         print(mapped_y_data.take(20))
         
         g_data = gd.gd_processing(sc, green_data_path)
-        mapped_g_data = g_data.map(lambda x: check_RateCodeID(x[0]))
+        mapped_g_data = g_data.map(lambda x: check_RateCodeID(x[4]))
         print("SAMPLE GREEN CAB DATA OUTPUT: \n")
         print(mapped_g_data.take(20))
         #if filename:

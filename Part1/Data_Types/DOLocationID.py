@@ -6,19 +6,28 @@ from pyspark import SparkContext
 
 
 def check_DOLocationID(input_dataline, locidix):
-    if input_datapoint in [str(x) for x in range(1,266)]:
-        base_type="Integer"
-        semantic_type="Pickup Location ID"
-        qual_type="Valid"  
-    
+    try:
+        intinp = int(input_datapoint)
+        if intinp in range(1,266):
+            base_type="INTEGER"
+            semantic_type="Integer"
+            qual_type="VALID"
+        elif intinp == 0:
+            base_type="INTEGER"
+            semantic_type="Integer"
+            qual_type="NULL"
+        else:
+            base_type="INTEGER"
+            semantic_type="Integer"
+            qual_type="INVALID"
     elif input_datapoint in ["null", ""]:
         base_type="TEXT"
-        semantic_type="Older data without code"
-        qual_type="Null"  
+        semantic_type="null value"
+        qual_type="NULL"  
     else:
         base_type=type(input_datapoint)
         semantic_type="Invalid Flag"
-        qual_type="Invalid"
+        qual_type="INVALID"
 
     return [input_datapoint, base_type, semantic_type, qual_type]
 
@@ -32,12 +41,12 @@ def main():
         sc = SparkContext()
 
         y_data = yd.yc_processing(sc, sys.argv[1])
-        mapped_y_data = y_data.map(lambda x: check_DOLocationID(x[0]))
+        mapped_y_data = y_data.map(lambda x: check_DOLocationID(x[20]))
         print("SAMPLE YELLOW CAB DATA OUTPUT: \n")
         print(mapped_y_data.take(20))
         
         g_data = gd.gd_processing(sc, green_data_path)
-        mapped_g_data = g_data.map(lambda x: check_DOLocationID(x[0]))
+        mapped_g_data = g_data.map(lambda x: check_DOLocationID(x[22]))
         print("SAMPLE GREEN CAB DATA OUTPUT: \n")
         print(mapped_g_data.take(20))
         #if filename:

@@ -7,30 +7,30 @@ def check_fare_amount(input_datapoint):
     try:
         flip = float(input_datapoint)
         if 2.25 <= flip <= 120:
-            base_type="Float"
-            semantic_type="Fare Amount"
-            qual_type="Valid"  
+            base_type="FLOAT"
+            semantic_type="Currency"
+            qual_type="VALID"  
         elif flip == 0:
-            base_type="Float"
-            semantic_type="Fare Amount"
-            qual_type="Null"  
+            base_type="FLOAT"
+            semantic_type="Currency"
+            qual_type="NULL"  
         elif flip < 2.25:
-            base_type="Float"
-            semantic_type="Too Small Fare Amount"
-            qual_type="Invalid"  
+            base_type="FLOAT"
+            semantic_type="Currency"
+            qual_type="INVALID"  
         else:
-            base_type="Float"
-            semantic_type="Too Large Fare Amount"
-            qual_type="Invalid"             
+            base_type="FLOAT"
+            semantic_type="Currency"
+            qual_type="INVALID"             
     except:
         if input_datapoint=="":
             base_type="TEXT"
             semantic_type="No Entry"
-            qual_type="Null"
+            qual_type="NULL"
         else:
             base_type=type(input_datapoint)
             semantic_type="Invalid Flag"
-            qual_type="Invalid"
+            qual_type="INVALID"
         
     return [input_datapoint, base_type, semantic_type, qual_type]
 
@@ -45,12 +45,12 @@ def main():
         sc = SparkContext()
 
         y_data = yd.yc_processing(sc, sys.argv[1])
-        mapped_y_data = y_data.map(lambda x: check_fare_amount(x[0]))
+        mapped_y_data = y_data.map(lambda x: check_fare_amount(x[12]))
         print("SAMPLE YELLOW CAB DATA OUTPUT: \n")
         print(mapped_y_data.take(20))
         
         g_data = gd.gd_processing(sc, green_data_path)
-        mapped_g_data = g_data.map(lambda x: check_fare_amount(x[0]))
+        mapped_g_data = g_data.map(lambda x: check_fare_amount(x[11]))
         print("SAMPLE GREEN CAB DATA OUTPUT: \n")
         print(mapped_g_data.take(20))
         #if filename:

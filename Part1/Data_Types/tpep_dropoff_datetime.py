@@ -1,29 +1,33 @@
+"""
+ONLY APPLIES TO YELLOW CAB DATA
+"""
+
 import sys
 import check_yellow_data as yd
-import check_green_data as gd
 from pyspark import SparkContext
+from datetime import datetime as dt
 
 def check_tpep_dropoff_datetime(input_datapoint):
     try:
         dto = dt.strptime(input_datapoint, '%Y-%m-%d %H:%M:%S')
         #dto.year, dto.month, dto.day, dto.minute, dto.second, dto.hour        
         if dto.year in [2013, 2014,2015,2016]:
-            base_type="timestamp"
+            base_type="DATETIME"
             semantic_type="Timestamp"
-            qual_type="Valid"
+            qual_type="VALID"
         else:
-            base_type="timestamp"
+            base_type="DATETIME"
             semantic_type="Timestamp"
-            qual_type="Invalid/Outlier"
+            qual_type="INVALID/OUTLIER"
     except:
         if input_datapoint=='':
             base_type="TEXT"
             semantic_type="Empty Value"
-            qual_type="Null"
+            qual_type="NULL"
         else:
             base_type=type(input_datapoint)
             semantic_type="Unknown"
-            qual_type="Invalid"
+            qual_type="INVALID"
     
     return [input_datapoint, base_type, semantic_type, qual_type]
 
@@ -37,14 +41,10 @@ def main():
         sc = SparkContext()
 
         y_data = yd.yc_processing(sc, sys.argv[1])
-        mapped_y_data = y_data.map(lambda x: check_tpep_dropoff_datetime(x[0]))
+        mapped_y_data = y_data.map(lambda x: check_tpep_dropoff_datetime(x[2]))
         print("SAMPLE YELLOW CAB DATA OUTPUT: \n")
         print(mapped_y_data.take(20))
         
-        g_data = gd.gd_processing(sc, green_data_path)
-        mapped_g_data = g_data.map(lambda x: check_tpep_dropoff_datetime(x[0]))
-        print("SAMPLE GREEN CAB DATA OUTPUT: \n")
-        print(mapped_g_data.take(20))
         #if filename:
         #    print("Saving Mapped Data to file: {0}".format(filename))
         #    mapped_data.write.csv(filename)

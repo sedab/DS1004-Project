@@ -5,15 +5,25 @@ from pyspark import SparkContext
 
 
 def check_passenger_count(input_datapoint):
-    if input_datapoint in ['1','2','3','4','5','6']:
-        base_type = "INT"
-        semantic_type= "Number of Passengers"
-        qual_type="VALID"
-    elif input_datapoint=='0':
-        base_type = "Integer"
-        semantic_type= "Number of Passengers"
-        qual_type="NULL"
-    else:
+    try:
+        intinp = int(input_datapoint)
+        if intinp in range(1,7):
+            base_type = "INTEGER"
+            semantic_type= "Number of Passengers"
+            qual_type="VALID"
+        elif intinp==0:
+            base_type = "INTEGER"
+            semantic_type= "Number of Passengers"
+            qual_type="NULL"
+        elif intinp in (7,8,9):
+            base_type = "INTEGER"
+            semantic_type= "Number of Passengers"
+            qual_type="OUTLIER"
+        else:
+            base_type = "INTEGER"
+            semantic_type= "Number of Passengers"
+            qual_type="INVALID"
+    except:
         base_type=type(input_datapoint)
         semantic_type="Unknown"
         qual_type="Invalid"
@@ -30,12 +40,12 @@ def main():
         sc = SparkContext()
 
         y_data = yd.yc_processing(sc, sys.argv[1])
-        mapped_y_data = y_data.map(lambda x: check_passenger_count(x[0]))
+        mapped_y_data = y_data.map(lambda x: check_passenger_count(x[3]))
         print("SAMPLE YELLOW CAB DATA OUTPUT: \n")
         print(mapped_y_data.take(20))
         
         g_data = gd.gd_processing(sc, green_data_path)
-        mapped_g_data = g_data.map(lambda x: check_passenger_count(x[0]))
+        mapped_g_data = g_data.map(lambda x: check_passenger_count(x[9]))
         print("SAMPLE GREEN CAB DATA OUTPUT: \n")
         print(mapped_g_data.take(20))
         #if filename:

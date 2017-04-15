@@ -1,36 +1,37 @@
+"""
+Check data quality in Trip_type column of Green Cab Data
+Note this column does not exist in 2013-2016 yellow cab data
+"""
+
 import sys
-import check_yellow_data as yd
 import check_green_data as gd
 from pyspark import SparkContext
 
 
-def check_PULocationID(input_datapoint):
+def check_Trip_type(input_datapoint):
     try:
         intinp = int(input_datapoint)
-
-        if intinp in range(1,266):
+        if intinp in [1,2,3,4,5,6]:
+            base_type="INTEGER"
+            semantic_type="Rate code"
+            qual_type="VALID"
+        elif intinp==99:
             base_type="INTEGER"
             semantic_type="Integer"
-            qual_type="VALID"
-        elif intinp == 0:
+            qual_type="NULL"
+        elif intinp==0:
             base_type="INTEGER"
             semantic_type="Integer"
             qual_type="NULL"
         else:
             base_type="INTEGER"
             semantic_type="Integer"
-            qual_type="INVALID"
-    elif input_datapoint in ["null", ""]:
-        base_type="TEXT"
-        semantic_type="null value"
-        qual_type="NULL"  
-    else:
+            qual_type="INVALID"      
+    except:
         base_type=type(input_datapoint)
-        semantic_type="Invalid Flag"
-        qual_type="INVALID"
-
+        semantic_type="Invalid Ratecode ID"
+        qual_type="Invalid"
     return [input_datapoint, base_type, semantic_type, qual_type]
-
 
 
 def main():
@@ -38,16 +39,10 @@ def main():
     # if sys.argv[2] is passed, it will be a path to green data
   
     try:
-        green_data_path = sys.argv[2]
+        check_green_data_flag = sys.argv[2]
         sc = SparkContext()
-
-        y_data = yd.yc_processing(sc, sys.argv[1])
-        mapped_y_data = y_data.map(lambda x: check_PULocationID(x[19]))
-        print("SAMPLE YELLOW CAB DATA OUTPUT: \n")
-        print(mapped_y_data.take(20))
-        
-        g_data = gd.gd_processing(sc, green_data_path)
-        mapped_g_data = g_data.map(lambda x: check_PULocationID(x[21]))
+        g_data = gd.gd_processing(sc, sys.argv[1])
+        mapped_g_data = g_data.map(lambda x: check_Trip_type(x[20]))
         print("SAMPLE GREEN CAB DATA OUTPUT: \n")
         print(mapped_g_data.take(20))
         #if filename:
@@ -58,7 +53,7 @@ def main():
     except:
         words = str(sys.argv[1]).split("|")
         for word in words:
-            print(check_PULocationID(word))
+            print(check_Trip_type(word))
     return
 
 

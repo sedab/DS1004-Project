@@ -5,18 +5,26 @@ from pyspark import SparkContext
 
 
 def check_payment_type(input_datapoint):
-    if str(input_datapoint) in ['1', '2', '3', '4']:
-        base_type="Integer"
-        semantic_type="Code of Payment Type"
-        qual_type="Valid"
-    elif input_datapoint=='':
-        base_type="TEXT"
-        semantic_type="no code provided"
-        qual_type="Null"       
-    else:
-        base_type=type(input_datapoint)
-        semantic_type="Invalid Flag"
-        qual_type="Invalid"
+    try:
+        intinp = int(input_datapoint)
+        if  intinp in range(1,5):
+            base_type="INTEGER"
+            semantic_type="Code of Payment Type"
+            qual_type="VALID"
+        elif intinp==0:
+            base_type="INTEGER"
+            semantic_type="INTEGER"
+            qual_type="NULL"
+     
+    except:
+        if input_datapoint=='':
+            base_type="TEXT"
+            semantic_type="no code provided"
+            qual_type="NULL"       
+        else:
+            base_type=type(input_datapoint)
+            semantic_type="Invalid Flag"
+            qual_type="INVALID"
 
     return [input_datapoint, base_type, semantic_type, qual_type]
 
@@ -30,12 +38,12 @@ def main():
         sc = SparkContext()
 
         y_data = yd.yc_processing(sc, sys.argv[1])
-        mapped_y_data = y_data.map(lambda x: check_payment_type(x[0]))
+        mapped_y_data = y_data.map(lambda x: check_payment_type(x[11]))
         print("SAMPLE YELLOW CAB DATA OUTPUT: \n")
         print(mapped_y_data.take(20))
         
         g_data = gd.gd_processing(sc, green_data_path)
-        mapped_g_data = g_data.map(lambda x: check_payment_type(x[0]))
+        mapped_g_data = g_data.map(lambda x: check_payment_type(x[19]))
         print("SAMPLE GREEN CAB DATA OUTPUT: \n")
         print(mapped_g_data.take(20))
         #if filename:

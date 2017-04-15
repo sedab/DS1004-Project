@@ -1,8 +1,12 @@
-### Check data quality in vendorID (or vendor_id) column
+"""
+Check data quality in Ehail_fee column of Green Cab Data
+Note this column does not exist in 2013-2016 yellow cab data
+"""
 import sys
-import check_on_all_yellow_data
+import check_green_data as gd
+from pyspark import SparkContext
 
-def check_VendorID(input_datapoint):
+def check_Ehail_fee(input_datapoint):
     """
     Applies to first column in processed data 
     """
@@ -32,7 +36,6 @@ def check_VendorID(input_datapoint):
     return [input_datapoint, base_type, semantic_type, qual_type]
 
 import sys
-import check_yellow_data as yd
 import check_green_data as gd
 from pyspark import SparkContext
 
@@ -43,16 +46,11 @@ def main():
     # if sys.argv[2] is passed, it will be a path to green data
   
     try:
-        green_data_path = sys.argv[2]
+        check_green_data_flag = sys.argv[2]
         sc = SparkContext()
-
-        y_data = yd.yc_processing(sc, sys.argv[1])
-        mapped_y_data = y_data.map(lambda x: check_VendorID(x[0]))
-        print("SAMPLE YELLOW CAB DATA OUTPUT: \n")
-        print(mapped_y_data.take(20))
         
-        g_data = gd.gd_processing(sc, green_data_path)
-        mapped_g_data = g_data.map(lambda x: check_VendorID(x[0]))
+        g_data = gd.gd_processing(sc, sys.argv[1])
+        mapped_g_data = g_data.map(lambda x: check_Ehail_fee(x[16]))
         print("SAMPLE GREEN CAB DATA OUTPUT: \n")
         print(mapped_g_data.take(20))
         #if filename:
@@ -63,7 +61,7 @@ def main():
     except:
         words = str(sys.argv[1]).split("|")
         for word in words:
-            print(check_VendorID(word))
+            print(check_Ehail_fee(word))
     return
 
 

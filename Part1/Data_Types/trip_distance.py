@@ -42,12 +42,12 @@ def main():
         sc = SparkContext()
 
         y_data = yd.yc_processing(sc, sys.argv[1])
-        mapped_y_data = y_data.map(lambda x: check_trip_distance(x[0]))
+        mapped_y_data = y_data.map(lambda x: check_trip_distance(x[4]))
         print("SAMPLE YELLOW CAB DATA OUTPUT: \n")
         print(mapped_y_data.take(20))
         
         g_data = gd.gd_processing(sc, green_data_path)
-        mapped_g_data = g_data.map(lambda x: check_trip_distance(x[0]))
+        mapped_g_data = g_data.map(lambda x: check_trip_distance(x[10]))
         print("SAMPLE GREEN CAB DATA OUTPUT: \n")
         print(mapped_g_data.take(20))
         #if filename:

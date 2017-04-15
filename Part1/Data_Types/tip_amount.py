@@ -8,24 +8,27 @@ def check_tip_amount(input_datapoint):
     try:
         flip = float(input_datapoint)
         if flip==0:
-            base_type="Integer"
-            semantic_type="No or Cash Tip"
-            qual_type="Null" 
+            base_type="FLOAT"
+            semantic_type="Integer"
+            qual_type="NULL" 
         elif flip < 0:
-            base_type="Float"
+            base_type="FLOAT"
             semantic_type="Negative Tip"
-            qual_type="Invalid"
-
+            qual_type="INVALID"
+        elif flip < 200:
+            base_type="FLOAT"
+            semantic_type="CURRENCY"
+            qual_type="VALID"
         else:
-            base_type="Float"
-            semantic_type="Incorrect Tip Amount"
-            qual_type="Invalid/Outlier" 
+            base_type="FLOAT"
+            semantic_type="Currency"
+            qual_type="INVALID/OUTLIER" 
 
     except:
         if input_datapoint=="":
             base_type="TEXT"
             semantic_type="No Entry"
-            qual_type="Null"
+            qual_type="NULL"
             
     return [input_datapoint, base_type, semantic_type, qual_type]
 
@@ -40,7 +43,7 @@ def main():
         sc = SparkContext()
 
         y_data = yd.yc_processing(sc, sys.argv[1])
-        mapped_y_data = y_data.map(lambda x: check_tip_amount(x[14]))
+        mapped_y_data = y_data.map(lambda x: check_tip_amount(x[15]))
         print("SAMPLE YELLOW CAB DATA OUTPUT: \n")
         print(mapped_y_data.take(20))
         
