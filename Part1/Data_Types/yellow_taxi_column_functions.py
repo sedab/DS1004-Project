@@ -21,19 +21,27 @@ def check_VendorID(input_datapoint):
         base_type="TEXT"
         semantic_type="Depreciated Version of encoding Vendor IDs"
         qual_type="Valid"
-    elif input_datapoint in [1, 2]:
-        base_type = "Integer"
-        semantic_type= "Vendor ID"
-        qual_type="Valid"
-    elif input_datapoint in [3]:
-        base_type = "Integer"
-        semantic_type= "Vendor ID"
-        qual_type="Null"
+    elif input_datapoint in [""]:
+        base_type="TEXT"
+        semantic_type="String"
+        qual_type="NULL"
     else:
-        base_type=type(input_datapoint)
-        semantic_type="Unknown"
-        qual_type="Invalid"
+        try:
+            intinp = int(input_datapoint)
+            if intinp in [1, 2]:
+                base_type = "INT"
+                semantic_type= "Integer"
+                qual_type="VALID"
+            elif intinp in [3]:
+                base_type = "INT"
+                semantic_type= "Integer"
+                qual_type="NULL"
+        except:
+            base_type=str(type(input_datapoint))
+            semantic_type="Unknown"
+            qual_type="INVALID"
     return [input_datapoint, base_type, semantic_type, qual_type]
+
 
 def check_tpep_pickup_datetime(input_datapoint):
     # sample valid datapoint:  '2015-07-01 00:01:10'

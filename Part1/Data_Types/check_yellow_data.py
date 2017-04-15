@@ -6,17 +6,14 @@ import csv
 import argparse
 import os
 from datetime import datetime as dt
-import yellow_taxi_column_functions as yt
 
 # data file will process yellow taxi data into one dataframe object
 
-def yc_processing(sc, sq):
-    cols_19 = ('VendorID', 'tpep_pickup_datetime', 'tpep_dropoff_datetime', 'passenger_count', 'trip_distance', 'pickup_longitude', 'pickup_latitude', 'RateCodeID', 'store_and_fwd_flag', 'dropoff_longitude', 'dropoff_latitude', 'payment_type', 'fare_amount', 'extra', 'mta_tax', 'tip_amount', 'tolls_amount', 'improvement_surcharge', 'total_amount',  'PULocationID', 'DOLocationID')
-
+def yc_processing(sc, path_to_data):
 
     # load all yellow cab data
     #yellow_data = sc.textFile("data/yellow_tripdata_2014-08.csv", 1)
-    yellow_data = sc.textFile("/user/ls1908/project/data/y/*",1)
+    yellow_data = sc.textFile(path_to_data,1)
     # process CSV lines
     broken_yellow = yellow_data.mapPartitions(lambda x: csv.reader(x))
 
@@ -41,8 +38,30 @@ def yc_processing(sc, sq):
 
     return total_yellow_data
 
+
+"""
+def map_a_column(path_to_data, col_func, col_loc, filename=None):
+    sc = SparkContext()
+    sq = SQLContext(sc)
+    print("TEST!")
+    print(col_func)
+    print(col_func(25))
+    print("TEST DONE")
+    total_data = yc_processing(sc, sq, path_to_data)
+    mapped_data = total_data.map(lambda x: col_func(x[col_loc]
+                                                   )
+                                )
+    print("SAMPLE DATA OUTPUT: \n")
+    print(mapped_data.take(20))
+    #if filename:
+    #    print("Saving Mapped Data to file: {0}".format(filename))
+    #    mapped_data.write.csv(filename)
+    sc.stop()
+    return
+
+
 def main():    
-    cols_19 = ('VendorID', 
+    yellow_cols = ['VendorID', 
                    'tpep_pickup_datetime', 
                    'tpep_dropoff_datetime', 
                    'passenger_count', 
@@ -51,24 +70,38 @@ def main():
                    'pickup_latitude', 
                    'RateCodeID', 
                    'store_and_fwd_flag', 
-               'dropoff_longitude', 
-               'dropoff_latitude', 
-               'payment_type', 
-               'fare_amount', 
-               'extra', 
-               'mta_tax', 
-               'tip_amount', 
-               'tolls_amount', 
-               'improvement_surcharge', 
-               'total_amount',  
-               'PULocationID',
-               'DOLocationID'
-              )
+                   'dropoff_longitude', 
+                   'dropoff_latitude', 
+                   'payment_type', 
+                   'fare_amount', 
+                   'extra', 
+                   'mta_tax', 
+                   'tip_amount', 
+                   'tolls_amount', 
+                   'improvement_surcharge', 
+                   'total_amount',  
+                   'PULocationID',
+                   'DOLocationID'
+                  ]
 
-    
     sc = SparkContext()
     sq = SQLContext(sc)
-    total_data = yc_processing(sc, sq)
+
+    
+    
+    
+    
+    
+    column_to_process = sys.argv[1]
+    data_to_process = sys.argv[2]
+    single_or_spark = sys.argv[3]
+    try:
+        single_data = sys.argv[3]
+        
+    if sys.argv == "spark":
+        total_data = yc_processing(sc, sq)
+        for col in column_to_test:
+            
     print("Right now we're just testing")
     print("Checking Vends")
     vends = total_data.map(lambda x: yt.check_passenger_count(x[3]))
@@ -99,3 +132,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+"""
