@@ -3,7 +3,8 @@ Code for generating visualizations included in Part 1 Report
 ### Generating Histograms 
 Code used for yellow cap 
 
-```./sql_query.sh --out_file group_by_pickup_date.out --query "SELECT hour(tpep_pickup_datetime), count(*) FROM yc GROUP BY hour(tpep_pickup_datetime) LIMIT 500"
+```
+./sql_query.sh --out_file group_by_pickup_date.out --query "SELECT hour(tpep_pickup_datetime), count(*) FROM yc GROUP BY hour(tpep_pickup_datetime) LIMIT 500"
 
 ./sql_query.sh --out_file group_by_dropoff_date.out --query "SELECT hour(tpep_dropoff_datetime), count(*) FROM yc GROUP BY hour(tpep_dropoff_datetime) LIMIT 500"
 
@@ -17,7 +18,8 @@ Code used for yellow cap
 
  Code used for green cap 
 
-```./sql_query2.sh --out_file pickup_gc.out --query "SELECT hour(lpep_pickup_datetime ), count(*) FROM gc GROUP BY hour(lpep_pickup_datetime ) LIMIT 500"
+```
+./sql_query2.sh --out_file pickup_gc.out --query "SELECT hour(lpep_pickup_datetime ), count(*) FROM gc GROUP BY hour(lpep_pickup_datetime ) LIMIT 500"
 
 ./sql_query2.sh --out_file dropoff_gc.out --query "SELECT hour(Lpep_dropoff_datetime), count(*) FROM gc GROUP BY hour(Lpep_dropoff_datetime) LIMIT 500"
 
