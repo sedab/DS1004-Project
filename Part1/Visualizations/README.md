@@ -30,7 +30,15 @@ Code used for yellow cap
 
 ./sql_query.sh --out_file improvement_surcharge_yc.out --query "select floor(improvement_surcharge/5.00)*5 as bucket_floor , count(*) as count from yc group by 1 order by 1 LIMIT 500"
 
-./sql_query.sh --out_file total_amount_yc.out --query "select floor(total_amount/5.00)*5 as bucket_floor , count(*) as count from yc group by 1 order by 1 LIMIT 500" 
+./sql_query.sh --out_file total_amount_yc.out --query "select floor(total_amount/5.00)*5 as bucket_floor , count(*) as count from yc group by 1 order by 1 LIMIT 500"  
+
+./sql_query.sh --out_file gb_pickup_month4_yc.out --query "SELECT MONTH(tpep_pickup_datetime), count(*) FROM yc GROUP BY MONTH(tpep_pickup_datetime) LIMIT 500"  
+
+./sql_query.sh --out_file gb_dropoff_month_yc.out --query "SELECT MONTH(tpep_dropoff_datetime), count(*) FROM yc GROUP BY MONTH(tpep_dropoff_datetime) LIMIT 500"  
+
+ ./sql_query.sh --out_file gb_pickup_day_yc.out --query "SELECT DAY(tpep_pickup_datetime), count(*) FROM yc GROUP BY DAY(tpep_pickup_datetime) LIMIT 500"  
+ 
+ ./sql_query.sh --out_file gb_dropoff_day_yc.out --query "SELECT DAY(tpep_dropoff_datetime), count(*) FROM yc GROUP BY DAY(tpep_dropoff_datetime) LIMIT 500"
 
 ```
 
@@ -67,6 +75,14 @@ Code used for yellow cap
 
 ./sql_query2.sh --out_file improvement_surcharge2_gc.out --query "select floor(improvement_surcharge/5.00)*5 as bucket_floor , count(*) as count from gc group by 1 order by 1 LIMIT 500"
 
-./sql_query2.sh --out_file Total_amount2_gc.out --query "select floor(Total_amount/5.00)*5 as bucket_floor , count(*) as count from gc group by 1 order by 1 LIMIT 500"
+./sql_query2.sh --out_file Total_amount2_gc.out --query "select floor(Total_amount/5.00)*5 as bucket_floor , count(*) as count from gc group by 1 order by 1 LIMIT 500" 
+
+./sql_query2.sh --out_file gb_dropoff_month_gc.out --query "SELECT MONTH(Lpep_dropoff_datetime), count(*) FROM gc GROUP BY MONTH(Lpep_dropoff_datetime) LIMIT 500" 
+
+./sql_query2.sh --out_file gb_pickup_month_gc.out --query "SELECT MONTH(lpep_pickup_datetime ), count(*) FROM gc GROUP BY MONTH(lpep_pickup_datetime) LIMIT 500"
+
+./sql_query2.sh --out_file gb_pickup_day_gc.out --query "SELECT DAY(lpep_pickup_datetime ), count(*) FROM gc GROUP BY DAY(lpep_pickup_datetime) LIMIT 500"
+
+./sql_query2.sh --out_file gb_dropoff_day_gc.out --query "SELECT DAY(Lpep_dropoff_datetime), count(*) FROM gc GROUP BY DAY(Lpep_dropoff_datetime) LIMIT 500"
 
 ```
