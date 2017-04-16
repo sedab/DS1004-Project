@@ -23,7 +23,7 @@ Code used for yellow cap
 
 ./sql_query2.sh --out_file dropoff_gc.out --query "SELECT hour(Lpep_dropoff_datetime), count(*) FROM gc GROUP BY hour(Lpep_dropoff_datetime) LIMIT 500"
 
-./sql_query2.sh --out_file passenger_count_gc.out --query "SELECT Passenger_count , count(*) AS cts FROM gc GROUP BY Passenger_count LIMIT 500"
+./sql_query2.sh --out_file passenger_count2_gc.out --query "SELECT Passenger_count , count(*) AS cts FROM gc GROUP BY Passenger_count LIMIT 500"
 
 ./sql_query2.sh --out_file payment_type_gc3.out --query "SELECT Payment_type , count(*) AS cts FROM gc GROUP BY Payment_type LIMIT 500"
 
