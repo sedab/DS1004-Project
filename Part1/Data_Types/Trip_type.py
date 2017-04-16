@@ -11,14 +11,10 @@ from pyspark import SparkContext
 def check_Trip_type(input_datapoint):
     try:
         intinp = int(input_datapoint)
-        if intinp in [1,2,3,4,5,6]:
+        if intinp in [1,2]:
             base_type="INTEGER"
             semantic_type="Rate code"
             qual_type="VALID"
-        elif intinp==99:
-            base_type="INTEGER"
-            semantic_type="Integer"
-            qual_type="NULL"
         elif intinp==0:
             base_type="INTEGER"
             semantic_type="Integer"
@@ -28,9 +24,14 @@ def check_Trip_type(input_datapoint):
             semantic_type="Integer"
             qual_type="INVALID"      
     except:
-        base_type=type(input_datapoint)
-        semantic_type="Invalid Ratecode ID"
-        qual_type="Invalid"
+        if input_datapoint in ["", "null"]:
+            base_type="TEXT"
+            semantic_type="no input"
+            qual_type="NULL"
+        else:
+            base_type=type(input_datapoint)
+            semantic_type="Invalid ID"
+            qual_type="INVALID"
     return [input_datapoint, base_type, semantic_type, qual_type]
 
 

@@ -3,7 +3,7 @@ from operator import add
 from pyspark import SparkContext
 from pyspark.sql import SQLContext
 import csv
-import argparse
+#import argparse
 import os
 from datetime import datetime as dt
 

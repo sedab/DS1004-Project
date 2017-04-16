@@ -7,29 +7,22 @@ import check_green_data as gd
 from pyspark import SparkContext
 
 def check_Ehail_fee(input_datapoint):
-    """
-    Applies to first column in processed data 
-    """
-    if input_datapoint in ['VTS', 'CMT']:
-        base_type="TEXT"
-        semantic_type="Depreciated Version of encoding Vendor IDs"
-        qual_type="Valid"
-    elif input_datapoint in [""]:
-        base_type="TEXT"
-        semantic_type="String"
-        qual_type="NULL"
-    else:
-        try:
-            intinp = int(input_datapoint)
-            if intinp in [1, 2]:
-                base_type = "INT"
-                semantic_type= "Integer"
-                qual_type="VALID"
-            elif intinp in [3]:
-                base_type = "INT"
-                semantic_type= "Integer"
-                qual_type="NULL"
-        except:
+    try:
+        flip = float(input_datapoint)
+        if flip < 5:
+            base_type = "FLOAT"
+            semantic_type= "Currency"
+            qual_type="VALID"
+        elif flip == 0:
+            base_type = "INT"
+            semantic_type= "Integer"
+            qual_type="NULL"
+    except:
+        if input_datapoint == "":
+            base_type = "TEXT"
+            semantic_type = "No Entry"
+            qual_type = "NULL"
+        else:
             base_type=str(type(input_datapoint))
             semantic_type="Unknown"
             qual_type="INVALID"

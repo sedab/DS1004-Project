@@ -60,3 +60,7 @@ def main():
         for word in words:
             print(check_total_amount(word))
     return
+
+
+if __name__ == '__main__':
+    main()

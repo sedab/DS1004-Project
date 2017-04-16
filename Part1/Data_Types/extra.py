@@ -38,7 +38,7 @@ def check_extra(input_datapoint):
             base_type=type(input_datapoint)
             semantic_type="Invalid Tax Entry"
             qual_type="INVALID"
-
+    return [input_datapoint, base_type, semantic_type, qual_type]
 
 
 

@@ -10,21 +10,21 @@ def check_VendorID(input_datapoint):
     """
     if input_datapoint in ['VTS', 'CMT']:
         base_type="TEXT"
-        semantic_type="Depreciated Version of encoding Vendor IDs"
-        qual_type="Valid"
+        semantic_type="Acronym"
+        qual_type="VALID"
     elif input_datapoint in [""]:
         base_type="TEXT"
-        semantic_type="String"
+        semantic_type="Empty string"
         qual_type="NULL"
     else:
         try:
             intinp = int(input_datapoint)
             if intinp in [1, 2]:
-                base_type = "INT"
+                base_type = "INTEGER"
                 semantic_type= "Code"
                 qual_type="VALID"
             elif intinp in [3]:
-                base_type = "INT"
+                base_type = "INTEGER"
                 semantic_type= "Code"
                 qual_type="NULL"
         except:

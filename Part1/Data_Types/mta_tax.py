@@ -8,26 +8,30 @@ def check_mta_tax(input_datapoint):
     try:
         flip = float(input_datapoint)        
         if flip in [0.5, 1]:
-            base_type="Float"
-            semantic_type="MTA Tax Cost"
-            qual_type="Valid"
+            base_type="FLOAT"
+            semantic_type="Currency"
+            qual_type="VALID"
         elif flip < 0:
-            base_type="Float"
-            semantic_type="Negative MTA Tax Cost"
-            qual_type="Invalid"
+            base_type="FLOAT"
+            semantic_type="Currency"
+            qual_type="INVALID"
+        elif flip == 0:
+            base_type="FLOAT"
+            semantic_type="No entry"
+            qual_type="NULL"
         else:
-            base_type="Float"
+            base_type="FLOAT"
             semantic_type="Incorrect MTA Tax Cost"
-            qual_type="Invalid/Outlier" 
+            qual_type="INVALID/OUTLIER" 
     except:
         if input_datapoint=="":
             base_type="TEXT"
             semantic_type="No Entry"
-            qual_type="Null"
+            qual_type="NULL"
         else:
             base_type=type(input_datapoint)
             semantic_type="Invalid Tax Entry"
-            qual_type="Invalid"
+            qual_type="INVALID"
     return [input_datapoint, base_type, semantic_type, qual_type]
 
 

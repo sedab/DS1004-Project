@@ -20,14 +20,15 @@ def check_PULocationID(input_datapoint):
             base_type="INTEGER"
             semantic_type="Integer"
             qual_type="INVALID"
-    elif input_datapoint in ["null", ""]:
-        base_type="TEXT"
-        semantic_type="null value"
-        qual_type="NULL"  
-    else:
-        base_type=type(input_datapoint)
-        semantic_type="Invalid Flag"
-        qual_type="INVALID"
+    except:
+        if input_datapoint in ["null", ""]:
+            base_type="TEXT"
+            semantic_type="string"
+            qual_type="NULL"  
+        else:
+            base_type=type(input_datapoint)
+            semantic_type="Invalid Flag"
+            qual_type="INVALID"
 
     return [input_datapoint, base_type, semantic_type, qual_type]
 

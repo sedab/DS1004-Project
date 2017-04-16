@@ -15,20 +15,20 @@ def check_tpep_pickup_datetime(input_datapoint):
         if dto.year in [2013, 2014,2015,2016]:
             base_type="TIMESTAMP"
             semantic_type="Timestamp"
-            qual_type="Valid"
+            qual_type="VALID"
         else:
-            base_type="timestamp"
+            base_type="TIMESTAMP"
             semantic_type="Timestamp"
-            qual_type="Invalid/Outlier"
+            qual_type="INVALID"
     except:
         if input_datapoint=='':
             base_type="TEXT"
             semantic_type="Empty Value"
-            qual_type="Null"
+            qual_type="NULL"
         else:
             base_type=type(input_datapoint)
             semantic_type="Unknown"
-            qual_type="Invalid"
+            qual_type="INVALID"
     
     return [input_datapoint, base_type, semantic_type, qual_type]
 

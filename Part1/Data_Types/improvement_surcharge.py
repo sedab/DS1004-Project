@@ -12,11 +12,23 @@ from pyspark import SparkContext
 def check_improvement_surcharge(input_datapoint):
     try:
         flip = float(input_datapoint)
+        if flip == 0.30:
+            base_typ="FLOAT"
+            semantic_type="Currency"
+            qual_type="VALID"
+        elif flip == 0:
+            base_typ="FLOAT"
+            semantic_type="Currency"
+            qual_type="NULL"
+        else:
+            base_typ="FLOAT"
+            semantic_type="Currency"
+            qual_type="INVALID"
     except:
-        if input_datapoint=="":
+        if input_datapoint in ["", "null"]:
             base_type="TEXT"
             semantic_type="No Entry"
-            qual_type="Null"
+            qual_type="NULL"
     return [input_datapoint, base_type, semantic_type, qual_type]
 
 

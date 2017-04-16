@@ -10,7 +10,7 @@ def check_trip_distance(input_datapoint):
         if flip==0:
             base_type="FLOAT"
             semantic_type="Distance"
-            qual_type="Null"
+            qual_type="NULL"
         elif flip < 0:
             base_type="FLOAT"
             semantic_type="Distance"
@@ -28,7 +28,7 @@ def check_trip_distance(input_datapoint):
         if input_datapoint=="":
             base_type="TEXT"
             semantic_type="No Entry"
-            qual_type="Null"
+            qual_type="NULL"
         
     return [input_datapoint, base_type, semantic_type, qual_type]
 

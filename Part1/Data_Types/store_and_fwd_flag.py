@@ -7,7 +7,7 @@ from pyspark import SparkContext
 def check_store_and_fwd_flag(input_datapoint):
     if input_datapoint in ["Y", "N"]:
         base_type="TEXT"
-        semantic_type="Boolean Indication of delay in data transmission"
+        semantic_type="Boolean"
         qual_type="VALID"
     elif input_datapoint== "":
         base_type = "TEXT"
