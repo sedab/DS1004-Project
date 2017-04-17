@@ -18,7 +18,7 @@ Code used for yellow cap
 
 ./sql_query.sh --out_file VendorID6_yc.out --query "SELECT VendorID , count(*) AS cts FROM yc GROUP BY VendorID LIMIT 500" 
 
-./sql_query.sh --out_file trip_distance4_yc.out --query "select floor(trip_distance/1000.00)*1000 as bucket_floor , count(*) as count from yc group by 1 order by 1 LIMIT 500"
+./sql_query.sh --out_file trip_distance5_yc.out --query "select floor(trip_distance/5.00)*5 as bucket_floor , count(*) as count from yc group by 1 order by 1 LIMIT 500"
 
 ./sql_query.sh --out_file fare_amount_yc.out --query "select floor(fare_amount/5.00)*5 as bucket_floor , count(*) as count from yc group by 1 order by 1 LIMIT 500"
 
