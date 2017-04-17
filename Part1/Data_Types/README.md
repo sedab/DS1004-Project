@@ -3,6 +3,9 @@ These scripts evaluate the data in each column of Yellow Cab Data and Green Cab 
 
 Columns that overlap between the datasets will use the same function. Columns that have the same content but a different naming convention ("VendorID" vs. "vendor\_id") have been grouped into the same column and will be evaluated using the same function.
 
+Scripts are currently configured to save outputs to text files on hdfs: `column_y.out` for yellow output data, and `column_g.out` for green taxi output data. To view a snapshot rather than putting the total output to a file, comment out the lines in the scripts that include the function `.saveAsTextFile`.
+
+
 ## 1. Joint Yellow and Green Columns
 
 Evaluate these columns by calling:

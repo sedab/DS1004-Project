@@ -44,9 +44,10 @@ def main():
         mapped_g_data = g_data.map(lambda x: check_Lpep_dropoff_datetime(x[2]))
         print("SAMPLE GREEN CAB DATA OUTPUT: \n")
         print(mapped_g_data.take(20))
-        #if filename:
-        #    print("Saving Mapped Data to file: {0}".format(filename))
-        #    mapped_data.write.csv(filename)
+        
+        print("saving all outputs to files")
+        mapped_y_data.saveAsTextFile("lpep_dropoff_datetime_y.out")
+        mapped_g_data.saveAsTextFile("lpep_dropoff_datetime_g.out")
         sc.stop()
 
     except:

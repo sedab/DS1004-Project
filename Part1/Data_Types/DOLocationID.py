@@ -51,6 +51,10 @@ def main():
         print("SAMPLE GREEN CAB DATA OUTPUT: \n")
         print(mapped_g_data.take(20))
         
+        print("saving all outputs to files")
+        mapped_y_data.saveAsTextFile("DOLocationID_y.out")
+        mapped_g_data.saveAsTextFile("DOLocationID_g.out")
+        
         #print("Saving Mapped Data to file: {0}".format('filename.out'))
         #mapped_g_data.write.csv('filename.csv')
         sc.stop()

@@ -47,9 +47,10 @@ def main():
         mapped_g_data = g_data.map(lambda x: check_RateCodeID(x[4]))
         print("SAMPLE GREEN CAB DATA OUTPUT: \n")
         print(mapped_g_data.take(20))
-        #if filename:
-        #    print("Saving Mapped Data to file: {0}".format(filename))
-        #    mapped_data.write.csv(filename)
+        
+        print("saving all outputs to files")
+        mapped_y_data.saveAsTextFile("RateCodeID_y.out")
+        mapped_g_data.saveAsTextFile("RateCodeID_g.out")
         sc.stop()
 
     except:
