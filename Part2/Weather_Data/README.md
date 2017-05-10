@@ -29,3 +29,15 @@ NOTE: When query has time of day, it refers to the hour. E.g.: if time of day = 
 
 
 **NOTE: All queries and hypotheses are commented out, it's recommended that each is uncommented and run at a time to save running time.
+
+
+# Additional Weather Data Analysis
+The script `daily_weather_data.py` provides additional data analysis used in Part 2 of the report, for visualizations and correlation analysis. These scripts can be run by calling: 
+`spark2-submit daily_weather_data.py` on NYU's HPC dumbo server. 
+
+- Max precipitation per day by weather station
+- max precipitation per day across weather stations
+- Average precipitation per day across weather stations
+- Average precipitation per day across weather stations
+- Average temperature per day across weather stations
+- Average snowfall per day across weather stations
