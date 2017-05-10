@@ -308,9 +308,7 @@ if __name__ == "__main__":
     
     
     
-    #FormatDateUDF = udf(FormatDate, DateType())
-    #schema_sd2 = schema_sd.withColumn('date_formatted',FormatDateUDF(schema_sd['Date']))
-    #schema_sd2 = schema_sd.withColumn('date_formatted', datetime.strptime(schema_sd['Date'],'%m/%d/%y').strftime('%Y-%m-%d'))
+ 
     
     schema_sd.createOrReplaceTempView("wd")
     
