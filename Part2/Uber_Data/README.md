@@ -1,6 +1,6 @@
 # Uber Data Processing
 
-Data is collected from here:
+Data is collected from here: https://github.com/fivethirtyeight/uber-tlc-foil-response/tree/master/uber-trip-data
 
 
 `uber_data_2014`: Pull daily summary of total uber rides in NYC for 2014, April - September.
