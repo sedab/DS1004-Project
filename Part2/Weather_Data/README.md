@@ -33,7 +33,7 @@ NOTE: When query has time of day, it refers to the hour. E.g.: if time of day = 
 
 # Additional Weather Data Analysis
 The script `daily_weather_data.py` provides additional data analysis used in Part 2 of the report, for visualizations and correlation analysis. These scripts can be run by calling: 
-`spark2-submit daily_weather_data.py` on NYU's HPC dumbo server. 
+`spark2-submit daily_weather_data.py` on NYU's HPC dumbo server. The data location will additionally need to be updated; data can be found via the report.
 
 - Max precipitation per day by weather station
 - max precipitation per day across weather stations
